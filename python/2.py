@@ -236,3 +236,56 @@ obj1.method1()
 obj2 = Child2()
 obj2.method()
 obj2.method2()
+
+
+''' OUTPUT->
+Welcome to GFG
+The addition of 5 and 15 results 20.
+Addition: 10
+Multiplication: 24
+Subtraction: 7
+Division: 5.0
+False True
+x: 10
+y: 50
+Geeks Practice
+Geeks Practice
+Case-1:
+Hi, I am Suraj
+My age is 27
+
+Case-2:
+Hi, I am 27
+My age is Suraj
+Hello
+Welcome
+to
+GeeksforGeeks
+first == Geeks
+mid == for
+last == Geeks
+Function to check if the number is even or odd
+Pomerean barks
+mammal
+I'm a mammal
+I'm a dog
+Please enter a number: 4
+Yeah! Your answer is: 1
+Sorry! You are dividing by zero
+0.5
+All finish
+catch ZeroDivisionError: division by zero
+All finish
+This function is in the parent class.
+This function is in the child class.
+Father: RAM
+Mother: SITA
+Santosh
+Grandfather name: Santosh
+Father name: Bhagwat
+Son name: Anand
+Parent method
+Child1 method
+Parent method
+Child2 method
+'''
