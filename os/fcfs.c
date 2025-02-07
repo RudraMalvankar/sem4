@@ -58,3 +58,19 @@ int main()
  * Step 3: Run the compiled program
  *         $ ./fcfs
  */
+
+
+/* 
+OUTPUT
+Please enter the total number of processes (maximum 30): 2
+
+Enter The Process Burst Time
+P[1]:12
+P[2]:21
+
+Process         Burst Time      Waiting Time    Turnaround Time
+P[1]            12                      0                               12
+P[2]            21                      12                              33
+Average Waiting Time: 6
+Average Turnaround Time: 22
+*/
