@@ -67,3 +67,14 @@ int main() {
 
     return 0;
 }
+
+/* ANSWER
+Enter number of items: 3
+Enter weight and value of each item:
+10 60
+20 100
+30 120
+Enter capacity of knapsack: 50
+Maximum Profit: 240.00
+
+*/
