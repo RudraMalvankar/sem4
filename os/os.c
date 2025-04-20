@@ -1,470 +1,238 @@
-// Q1 Write a C program to implement stack ADT using array
+//OS Codes 
 
- 
+// 1 To study Fork System Call
 #include <stdio.h>
-#define MAX 5
-
-int stack[MAX], top = -1;
-
-void push(int x) {
-    if (top == MAX - 1)
-        printf("Stack Overflow\n");
-    else
-        stack[++top] = x;
-}
-
-int pop() {
-    if (top == -1) {
-        printf("Stack Underflow\n");
-        return -1;
-    } else
-        return stack[top--];
-}
-
-void display() {
-    if (top == -1)
-        printf("Stack is empty\n");
-    else {
-        printf("Stack elements are: ");
-        for (int i = top; i >= 0; i--)
-            printf("%d ", stack[i]);
-        printf("\n");
-    }
-}
+#include <unistd.h>
 
 int main() {
-    int choice, x;
-    do {
-        printf("1. Push\n2. Pop\n3. Display\n4. Exit\nEnter your choice: ");
-        scanf("%d", &choice);
-        switch (choice) {
-            case 1:
-                printf("Enter element to push: ");
-                scanf("%d", &x);
-                push(x);
-                break;
-            case 2:
-                printf("Popped element: %d\n", pop());
-                break;
-            case 3:
-                display();
-                break;
-            case 4:
-                break;
-            default:
-                printf("Invalid choice\n");
-        }
-    } while (choice != 4);
-    return 0;
-}
-// Output: User can push, pop, display based on input.
-
-  
-
-// Q2 Write a C program to covert infix expression to postfix expression
-
- 
-#include <stdio.h>
-#include <ctype.h>
-#include <string.h>
-
-#define MAX 100
-char stack[MAX];
-int top = -1;
-
-void push(char x) {
-    stack[++top] = x;
-}
-
-char pop() {
-    return stack[top--];
-}
-
-int precedence(char x) {
-    if (x == '(') return 0;
-    if (x == '+' || x == '-') return 1;
-    if (x == '*' || x == '/') return 2;
-    return 0;
-}
-
-void infixToPostfix(char* exp) {
-    char *e, x;
-    e = exp;
-    while (*e != '\0') {
-        if (isalnum(*e))
-            printf("%c", *e);
-        else if (*e == '(')
-            push(*e);
-        else if (*e == ')') {
-            while ((x = pop()) != '(')
-                printf("%c", x);
-        } else {
-            while (precedence(stack[top]) >= precedence(*e))
-                printf("%c", pop());
-            push(*e);
-        }
-        e++;
-    }
-    while (top != -1)
-        printf("%c", pop());
-}
-
-int main() {
-    char exp[100];
-    printf("Enter infix expression: ");
-    scanf("%s", exp);
-    printf("Postfix expression: ");
-    infixToPostfix(exp);
-    printf("\n");
-    return 0;
-}
-// Output: Provide the infix expression.
-
-  
-
-// Q3 Write a C program to evaluate postfix expression
-
- 
-#include <stdio.h>
-#include <ctype.h>
-
-#define MAX 100
-int stack[MAX];
-int top = -1;
-
-void push(int x) {
-    stack[++top] = x;
-}
-
-int pop() {
-    return stack[top--];
-}
-
-int evaluatePostfix(char* exp) {
-    char *e = exp;
-    int n1, n2, n3;
-    while (*e != '\0') {
-        if (isdigit(*e)) {
-            push(*e - '0');
-        } else {
-            n1 = pop();
-            n2 = pop();
-            switch (*e) {
-                case '+': n3 = n2 + n1; break;
-                case '-': n3 = n2 - n1; break;
-                case '*': n3 = n2 * n1; break;
-                case '/': n3 = n2 / n1; break;
-            }
-            push(n3);
-        }
-        e++;
-    }
-    return pop();
-}
-
-int main() {
-    char exp[100];
-    printf("Enter postfix expression: ");
-    scanf("%s", exp);
-    printf("Postfix evaluation result: %d\n", evaluatePostfix(exp));
-    return 0;
-}
-// Output: Provide the postfix expression.
-
-  
-
-// Q4 Write a C program to implement queue using linked list
-
- 
-#include <stdio.h>
-#include <stdlib.h>
-
-struct Node {
-    int data;
-    struct Node* next;
-};
-
-struct Node* front = NULL;
-struct Node* rear = NULL;
-
-void enqueue(int x) {
-    struct Node* temp = (struct Node*)malloc(sizeof(struct Node));
-    temp->data = x;
-    temp->next = NULL;
-    if (front == NULL) {
-        front = rear = temp;
+    pid_t pid = fork();
+    if (pid == 0) {
+        printf("Child Process: PID = %d\n", getpid());
     } else {
-        rear->next = temp;
-        rear = temp;
+        printf("Parent Process: PID = %d\n", getpid());
     }
-}
-
-void dequeue() {
-    if (front == NULL)
-        printf("Queue Underflow\n");
-    else {
-        struct Node* temp = front;
-        front = front->next;
-        free(temp);
-    }
-}
-
-void display() {
-    struct Node* temp = front;
-    if (temp == NULL)
-        printf("Queue is empty\n");
-    else {
-        printf("Queue elements: ");
-        while (temp != NULL) {
-            printf("%d ", temp->data);
-            temp = temp->next;
-        }
-        printf("\n");
-    }
-}
-
-int main() {
-    int choice, x;
-    do {
-        printf("1. Enqueue\n2. Dequeue\n3. Display\n4. Exit\nEnter your choice: ");
-        scanf("%d", &choice);
-        switch (choice) {
-            case 1:
-                printf("Enter element to enqueue: ");
-                scanf("%d", &x);
-                enqueue(x);
-                break;
-            case 2:
-                dequeue();
-                break;
-            case 3:
-                display();
-                break;
-            case 4:
-                break;
-            default:
-                printf("Invalid choice\n");
-        }
-    } while (choice != 4);
     return 0;
 }
-// Output: User can enqueue, dequeue, display based on input.
 
-  
-
-// Q5 Write a C program to implement Binary search tree
-
- 
+// 2 To study FCFS Scheduling Algorithm
 #include <stdio.h>
+
+int main() {
+    int n;
+    printf("Enter number of processes: ");
+    scanf("%d", &n);
+
+    int bt[n], wt[n], tat[n];
+
+    for (int i = 0; i < n; i++) {
+        printf("Enter burst time for P%d: ", i + 1);
+        scanf("%d", &bt[i]);
+    }
+
+    wt[0] = 0;
+    for (int i = 1; i < n; i++) {
+        wt[i] = wt[i - 1] + bt[i - 1];
+    }
+
+    for (int i = 0; i < n; i++) {
+        tat[i] = wt[i] + bt[i];
+    }
+
+
+    printf("Process\tBurst\tWaiting\tTurnaround\n");
+
+    for (int i = 0; i < n; i++) {
+        printf("P%d\t%d\t%d\t%d\n", i + 1, bt[i], wt[i], tat[i]);
+    }
+ 
+    return 0;
+}
+
+
+//3 To study SJF Scheduling Algorithm
+#include <stdio.h>
+
+int main() {
+    int n;
+    printf("Enter number of processes: ");
+    scanf("%d", &n);
+    int bt[n], p[n], wt[n], tat[n];
+    for (int i = 0; i < n; i++) {
+        p[i] = i + 1;
+        printf("Enter burst time for P%d: ", p[i]);
+        scanf("%d", &bt[i]);
+    }
+    for (int i = 0; i < n - 1; i++)
+        for (int j = i + 1; j < n; j++)
+            if (bt[i] > bt[j]) {
+                int t = bt[i]; bt[i] = bt[j]; bt[j] = t;
+                t = p[i]; p[i] = p[j]; p[j] = t;
+            }
+    wt[0] = 0;
+    for (int i = 1; i < n; i++) wt[i] = wt[i - 1] + bt[i - 1];
+    for (int i = 0; i < n; i++) tat[i] = wt[i] + bt[i];
+
+    printf("Process\tBT\tWT\tTAT\n");
+    for (int i = 0; i < n; i++) printf("P%d\t%d\t%d\t%d\n", p[i], bt[i], wt[i], tat[i]);
+    return 0;
+}
+
+//4 To Study the Producer Consumer Problem
+#include <stdio.h>
+#include <semaphore.h>
+#include <pthread.h>
 #include <stdlib.h>
 
-struct Node {
-    int data;
-    struct Node* left;
-    struct Node* right;
-};
+sem_t empty, full;
+int buffer[10], in = 0, out = 0;
 
-struct Node* createNode(int x) {
-    struct Node* node = (struct Node*)malloc(sizeof(struct Node));
-    node->data = x;
-    node->left = node->right = NULL;
-    return node;
+void produce() {
+    int val;
+    sem_wait(&empty);
+    printf("Enter value to produce: ");
+    scanf("%d", &val);
+    buffer[in] = val;
+    printf("Produced: %d\n", buffer[in]);
+    in = (in + 1) % 10;
+    sem_post(&full);
 }
 
-struct Node* insert(struct Node* root, int x) {
-    if (root == NULL)
-        return createNode(x);
-    if (x < root->data)
-        root->left = insert(root->left, x);
-    else if (x > root->data)
-        root->right = insert(root->right, x);
-    return root;
-}
-
-void inorder(struct Node* root) {
-    if (root != NULL) {
-        inorder(root->left);
-        printf("%d ", root->data);
-        inorder(root->right);
-    }
+void consume() {
+    sem_wait(&full);
+    int val = buffer[out];
+    printf("Consumed: %d\n", val);
+    out = (out + 1) % 10;
+    sem_post(&empty);
 }
 
 int main() {
-    struct Node* root = NULL;
-    int choice, x;
-    do {
-        printf("1. Insert\n2. Inorder traversal\n3. Exit\nEnter your choice: ");
+    sem_init(&empty, 0, 10);
+    sem_init(&full, 0, 0);
+
+    int choice;
+    while (1) {
+        printf("\n1. Produce\n2. Consume\n3. Exit\nEnter choice: ");
         scanf("%d", &choice);
-        switch (choice) {
-            case 1:
-                printf("Enter element to insert: ");
-                scanf("%d", &x);
-                root = insert(root, x);
-                break;
-            case 2:
-                printf("Inorder traversal: ");
-                inorder(root);
-                printf("\n");
-                break;
-            case 3:
-                break;
-            default:
-                printf("Invalid choice\n");
+
+        if (choice == 1) {
+            produce();
+        } else if (choice == 2) {
+            consume();
+            
+        } else if (choice == 3) {
+            printf("Exiting...\n");
+            break;
+        } else {
+            printf("Invalid choice!\n");
         }
-    } while (choice != 3);
+    }
+
+    sem_destroy(&empty);
+    sem_destroy(&full);
     return 0;
 }
-// Output: Insert elements and perform inorder traversal.
 
-  
-
-// Q6 Write a C program to implement queue using array
-
- 
+//5 To Study Memory Management using fixed partitioning
 #include <stdio.h>
-#define MAX 5
-
-int queue[MAX], front = -1, rear = -1;
-
-void enqueue(int x) {
-    if (rear == MAX - 1)
-        printf("Queue Overflow\n");
-    else {
-        if (front == -1) front = 0;
-        queue[++rear] = x;
-    }
-}
-
-void dequeue() {
-    if (front == -1 || front > rear)
-        printf("Queue Underflow\n");
-    else
-        front++;
-}
-
-void display() {
-    if (front == -1 || front > rear)
-        printf("Queue is empty\n");
-    else {
-        printf("Queue elements: ");
-        for (int i = front; i <= rear; i++)
-            printf("%d ", queue[i]);
-        printf("\n");
-    }
-}
 
 int main() {
-    int choice, x;
-    do {
-        printf("1. Enqueue\n2. Dequeue\n3. Display\n4. Exit\nEnter your choice: ");
-        scanf("%d", &choice);
-        switch (choice) {
-            case 1:
-                printf("Enter element to enqueue: ");
-                scanf("%d", &x);
-                enqueue(x);
-                break;
-            case 2:
-                dequeue();
-                break;
-            case 3:
-                display();
-                break;
-            case 4:
-                break;
-            default:
-                printf("Invalid choice\n");
+    int total_memory = 200, used_memory = 0;
+    int n, size;
+
+    printf("Enter number of processes: ");
+    scanf("%d", &n);
+
+    for (int i = 1; i <= n; i++) {
+        printf("Enter memory required for Process %d: ", i);
+        scanf("%d", &size);
+
+        if (size <= (total_memory - used_memory)) {
+            used_memory += size;
+            printf("Memory Allocated to Process %d\n", i);
+            printf("Remaining Memory: %d\n", total_memory - used_memory);
+        } else {
+            printf("Not enough memory for Process %d! Remaining: %d\n", i, total_memory - used_memory);
         }
-    } while (choice != 4);
+    }
+
+    if (used_memory == total_memory) {
+        printf("No memory left!\n");
+    } else {
+        printf("Memory left after allocation: %d\n", total_memory - used_memory);
+    }
+
     return 0;
 }
-// Output: User can enqueue, dequeue, display based on input.
 
-  
 
-// Q7 Write a C program to implement Depth First search Algorithm
-
- 
+//6 To study First Fit Algorithm
 #include <stdio.h>
-#include <stdlib.h>
-
-#define MAX 100
-
-struct Node {
-    int vertex;
-    struct Node* next;
-};
-
-struct Graph {
-    int numVertices;
-    struct Node** adjLists;
-    int* visited;
-};
-
-struct Node* createNode(int vertex) {
-    struct Node* newNode = malloc(sizeof(struct Node));
-    newNode->vertex = vertex;
-    newNode->next = NULL;
-    return newNode;
-}
-
-struct Graph* createGraph(int vertices) {
-    struct Graph* graph = malloc(sizeof(struct Graph));
-    graph->numVertices = vertices;
-    graph->adjLists = malloc(vertices * sizeof(struct Node*));
-    graph->visited = malloc(vertices * sizeof(int));
-    for (int i = 0; i < vertices; i++) {
-        graph->adjLists[i] = NULL;
-        graph->visited[i] = 0;
-    }
-    return graph;
-}
-
-void addEdge(struct Graph* graph, int src, int dest) {
-    struct Node* newNode = createNode(dest);
-    newNode->next = graph->adjLists[src];
-    graph->adjLists[src] = newNode;
-
-    newNode = createNode(src);
-    newNode->next = graph->adjLists[dest];
-    graph->adjLists[dest] = newNode;
-}
-
-void DFS(struct Graph* graph, int vertex) {
-    graph->visited[vertex] = 1;
-    printf("%d ", vertex);
-
-    struct Node* adjList = graph->adjLists[vertex];
-    while (adjList != NULL) {
-        int adjVertex = adjList->vertex;
-        if (graph->visited[adjVertex] == 0) {
-            DFS(graph, adjVertex);
-        }
-        adjList = adjList->next;
-    }
-}
 
 int main() {
-    int vertices, edges, src, dest;
-
-    printf("Enter the number of vertices: ");
-    scanf("%d", &vertices);
-
-    struct Graph* graph = createGraph(vertices);
-
-    printf("Enter the number of edges: ");
-    scanf("%d", &edges);
-
-    printf("Enter the edges (src dest format):\n");
-    for (int i = 0; i < edges; i++) {
-        scanf("%d %d", &src, &dest);
-        addEdge(graph, src, dest);
+    int blocks[10], processes[10], b, p;
+    printf("Enter number of blocks: ");
+    scanf("%d", &b);
+    for (int i = 0; i < b; i++) {
+        printf("Enter size of Block %d: ", i + 1);
+        scanf("%d", &blocks[i]);
     }
-
-    printf("Depth First Search (starting from vertex 0):\n");
-    DFS(graph, 0);
-
+    printf("Enter number of processes: ");
+    scanf("%d", &p);
+    for (int i = 0; i < p; i++) {
+        printf("Enter size of Process %d: ", i + 1);
+        scanf("%d", &processes[i]);
+    }
+    for (int i = 0; i < p; i++) {
+        int allocated = 0;
+        for (int j = 0; j < b; j++) {
+            if (blocks[j] >= processes[i]) {
+                printf("Process %d allocated to Block %d\n", i + 1, j + 1);
+                blocks[j] -= processes[i];
+                allocated = 1;
+                break;
+            }
+        }
+        if (!allocated) printf("Process %d not allocated\n", i + 1);
+    }
     return 0;
 }
 
-  
+
+//7 To study Best fit Algorithm
+#include <stdio.h>
+
+int main() {
+    int blocks[10], processes[10], b, p;
+    printf("Enter number of blocks: ");
+    scanf("%d", &b);
+    for (int i = 0; i < b; i++) {
+        printf("Enter size of Block %d: ", i + 1);
+        scanf("%d", &blocks[i]);
+    }
+    printf("Enter number of processes: ");
+    scanf("%d", &p);
+    for (int i = 0; i < p; i++) {
+        printf("Enter size of Process %d: ", i + 1);
+        scanf("%d", &processes[i]);
+    }
+    for (int i = 0; i < p; i++) {
+        int best = -1;
+        for (int j = 0; j < b; j++) {
+            if (blocks[j] >= processes[i]) {
+                if (best == -1 || blocks[j] < blocks[best]) best = j;
+            }
+        }
+        if (best != -1) {
+            printf("Process %d allocated to Block %d\n", i + 1, best + 1);
+            blocks[best] -= processes[i];
+        } else {
+            printf("Process %d not allocated\n", i + 1);
+        }
+    }
+    return 0;
+}
+
+
+
+
+
